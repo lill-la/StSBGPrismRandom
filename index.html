@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ランダムキャラクター選択</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 20px;
+      background-color: #000;
+      color: #fff;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 1em;
+    }
+
+    button {
+      font-size: 1.1em;
+      padding: 0.5em 1.2em;
+      border: none;
+      border-radius: 8px;
+      background-color: #222;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #444;
+    }
+
+    .result {
+      margin-top: 1em;
+    }
+
+    .character {
+      font-size: 1.3em;
+      font-weight: bold;
+      margin: 0.4em auto;
+      padding: 0.6em;
+      border-radius: 6px;
+      color: white;
+      width: fit-content;
+      min-width: 8em;
+    }
+
+    .赤 { background-color: #e53935; }
+    .緑 { background-color: #43a047; }
+    .青 { background-color: #1e88e5; }
+    .紫 { background-color: #8e24aa; }
+    .灰 { background-color: #757575; }
+  </style>
+</head>
+<body>
+  <div class="buttons">
+    <button onclick="pickCharacters(1)">1人選ぶ</button>
+    <button onclick="pickCharacters(3)">3人選ぶ</button>
+    <button onclick="pickCharacters(5)">5人選ぶ</button>
+  </div>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    const characters = [
+      { name: "アイアンクラッド", color: "赤" },
+      { name: "サイレント", color: "緑" },
+      { name: "ディフェクト", color: "青" },
+      { name: "ウォッチャー", color: "紫" },
+      { name: "無色", color: "灰" }
+    ];
+
+    function pickCharacters(count) {
+      const picks = [];
+
+      for (let i = 0; i < count; i++) {
+        const rand = characters[Math.floor(Math.random() * characters.length)];
+        picks.push(rand);
+      }
+
+      // 順序付きでグループ化して表示
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = "";
+
+      characters.forEach(char => {
+        // 同じキャラが複数回選ばれていればその回数分表示
+        const matches = picks.filter(p => p.name === char.name);
+        matches.forEach(() => {
+          const div = document.createElement("div");
+          div.className = `character ${char.color}`;
+          div.textContent = char.name;
+          resultDiv.appendChild(div);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
